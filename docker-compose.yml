@@ -1,0 +1,11 @@
+﻿services:
+  cafe:
+    image: cafe
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+networks:
+
+  mysql_bridge:
+    external: true

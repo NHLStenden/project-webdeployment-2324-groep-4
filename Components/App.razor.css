@@ -1,0 +1,20 @@
+html, body {
+    background-color: var(--bg-color);
+    /*color: white;*/
+    color: var(--primary-color);
+
+    transition: background-color .5s, color .5s;
+}
+
+:root,
+:root.darkMode {
+    --bg-color: #06191D;
+    --primary-color: #FFF;
+    --secondary-color: #D8A858;
+}
+:root.lightMode {
+    --bg-color: #ffffff;
+    --primary-color: #000;
+    --secondary-color: #D8A858;
+}
+

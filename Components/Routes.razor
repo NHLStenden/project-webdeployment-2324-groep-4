@@ -1,0 +1,22 @@
+﻿@* @using cafe.GlobalState *@
+@* <CascadingValue Value="_theme"> *@
+@*     <Router AppAssembly="typeof(Program).Assembly"> *@
+@*         <Found Context="routeData"> *@
+@*             <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/> *@
+@*             <FocusOnNavigate RouteData="routeData" Selector="h1"/> *@
+@*         </Found> *@
+@*     </Router> *@
+@* </CascadingValue> *@
+@* *@
+@* @code { *@
+@* *@
+@*     private MainState _theme = new(); *@
+@* *@
+@* } *@
+
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
+        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+    </Found>
+</Router>
