@@ -1,0 +1,6 @@
+﻿services:
+  blazorbrandstof:
+    image: blazorbrandstof
+    build:
+      context: .
+      dockerfile: BlazorBrandstof/Dockerfile
