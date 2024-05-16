@@ -1,0 +1,17 @@
+﻿.pin-container {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.pin-input {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    margin: 5px;
+}
+
+.pin-input:focus {
+    outline: none;
+}
