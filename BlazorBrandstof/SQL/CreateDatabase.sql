@@ -13,7 +13,7 @@ CREATE TABLE products
 (
     Id    int AUTO_INCREMENT NOT NULL,
     Name  nvarchar(255)      NOT NULL,
-    Price integer            NOT NULL,
+    Price decimal(15,2)           NOT NULL,
 
     PRIMARY KEY (Id)
 );
@@ -57,3 +57,18 @@ CREATE TABLE product_round
     FOREIGN KEY (ProductId) REFERENCES products (Id),
     FOREIGN KEY (RoundId) REFERENCES rounds (Id)
 );
+
+INSERT INTO waiter (Name) 
+VALUES ('testwaiter');
+
+INSERT INTO waiter (Name)
+VALUES ('testwaiter1');
+
+INSERT INTO products (Name, Price) 
+VALUES ('testkoffie', '2.50');
+
+INSERT INTO products (Name, Price)
+VALUES ('testthee', '1.50');
+
+INSERT INTO products (Name, Price)
+VALUES ('frisdrank', '2.79');
