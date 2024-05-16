@@ -13,6 +13,8 @@ public class Program
             .AddInteractiveServerComponents();
 
         var app = builder.Build();
+        
+        ConfigurationHelper.Configuration = app.Configuration;
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())

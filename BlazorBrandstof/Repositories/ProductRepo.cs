@@ -4,7 +4,7 @@ using MySqlConnector;
 
 namespace BlazorBrandstof.Repositories;
 
-public class ProductRepo
+public static class ProductRepo
 {
     private static readonly string ConnectionString =
         ConfigurationHelper.Configuration.GetConnectionString("brandstof")!;
