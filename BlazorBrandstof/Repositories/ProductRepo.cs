@@ -1,4 +1,4 @@
-﻿using BlazorBrandstof.Entities;
+﻿using BlazorBrandstof.Models;
 using Dapper;
 using MySqlConnector;
 

@@ -1,6 +1,6 @@
 ﻿namespace BlazorBrandstof.Models;
 
-public class waiter
+public class Waiter
 {
     public string Name { get; set; }
 }
