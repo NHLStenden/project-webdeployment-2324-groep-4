@@ -14,8 +14,9 @@ CREATE TABLE waiter
 
 CREATE TABLE categories 
 (
+    Id  int AUTO_INCREMENT NOT NULL,
     Name nvarchar(255),
-    PRIMARY KEY (Name)
+    PRIMARY KEY (Id)
 );
 
 CREATE TABLE products
@@ -31,19 +32,20 @@ CREATE TABLE products
 
 CREATE TABLE tables
 (
+    Id  int AUTO_INCREMENT          NOT NULL,
     Name   nvarchar(255)            NOT NULL,
-    PRIMARY KEY (Name)
+    PRIMARY KEY (Id)
 );
 
 CREATE TABLE orders
 (
     Id        int AUTO_INCREMENT NOT NULL,
     Timestamp datetime           NOT NULL default CURRENT_TIMESTAMP,
-    TableName   nvarchar(255),
+    TableId   int,
     WaiterName nvarchar(255), 
 
     PRIMARY KEY (Id),
-    FOREIGN KEY (TableName) REFERENCES tables (Name),
+    FOREIGN KEY (TableId) REFERENCES tables (Id),
     FOREIGN KEY (WaiterName) REFERENCES waiter (Name)
 );
 
@@ -70,37 +72,58 @@ CREATE TABLE product_round
 );
 
 INSERT INTO waiter (Name) 
-VALUES ('waiter1');
+VALUES ('Waiter1');
 
 INSERT INTO waiter (Name)
-VALUES ('waiter2');
+VALUES ('Waiter2');
+
+INSERT INTO waiter (Name)
+VALUES ('Waiter3');
 
 INSERT INTO categories (Name)
-VALUES ('hotdrinks');
+VALUES ('Warm drinks');
 
 INSERT INTO categories (Name)
-VALUES ('colddrinks');
+VALUES ('Cold drinks');
 
 INSERT INTO categories (Name)
-VALUES ('food');
+VALUES ('Alcohol free drinks');
+
+INSERT INTO categories (Name)
+VALUES ('Pastry\'s and dessert');
+
+INSERT INTO categories (Name)
+VALUES ('Snacks');
+
+INSERT INTO categories (Name)
+VALUES ('Lunch');
+
+INSERT INTO categories (Name)
+VALUES ('Catering drinks');
+
+INSERT INTO categories (Name)
+VALUES ('Catering food');
+
+INSERT INTO categories (Name)
+VALUES ('Re-usables / disposables');
 
 INSERT INTO products (Name, Price, Category) 
-VALUES ('coffee', '2.50', 'hotdrinks');
+VALUES ('Coffee creme', '1.22', 'Warm drinks');
 
 INSERT INTO products (Name, Price, Category)
-VALUES ('tea', '1.50', 'hotdrinks');
+VALUES ('Coffee creme large', '1.88', 'Warm drinks');
 
 INSERT INTO products (Name, Price, Category)
-VALUES ('softdrinks', '2.79', 'colddrinks');
+VALUES ('Cappuccino', '1.50', 'Warm drinks');
 
 INSERT INTO products (Name, Price, Category)
-VALUES ('iced coffee', '2.79', 'colddrinks');
+VALUES ('Cappuccino large', '2.16', 'Warm drinks');
 
 INSERT INTO products (Name, Price, Category)
-VALUES ('applepie', '3.79', 'food');
+VALUES ('Espresso', '1.22', 'Warm drinks');
 
 INSERT INTO products (Name, Price, Category)
-VALUES ('carrotcake', '2.49', 'food');
+VALUES ('Double Espresso', '1.88', 'Warm drinks');
 
 INSERT INTO tables (Name)
 VALUES ('table1');
