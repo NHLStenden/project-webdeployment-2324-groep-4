@@ -1,20 +1,39 @@
 ﻿@page "/Home"
+@using BlazorBrandstof.Repositories
 
 <PageTitle>Home</PageTitle>
 
 <div class="container text-center">
     <div class="row">
         <div class="col">
-            Column
+            <h2>Bon</h2>
         </div>
         <div class="col">
-            Column
+            <h2>Warme Dranken</h2>
+            @foreach (var product in ProductRepo.GetAll())
+            {
+            <div class="col p-1">
+                <button type="button" class="btn btn-primary btn-lg">@product.Name $@product.Price</button>
+            </div>
+            }
         </div>
         <div class="col">
-            Column
+            <h2>Koude Dranken</h2>
+            @for (int i = 0; i < 10; i++)
+            {
+            <div class="col p-1">
+                <button type="button" class="btn  btn-lg">Primary</button>
+            </div>
+            }
         </div>
         <div class="col">
-            Column
+            <h2>Alcoholvrije Dranken</h2>
+            @for (int i = 0; i < 10; i++)
+            {
+            <div class="col p-1">
+                <button type="button" class="btn btn-primary btn-lg">Primary</button>
+            </div>
+            }
         </div>
     </div>
 </div>

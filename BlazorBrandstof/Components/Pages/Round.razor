@@ -1,0 +1,84 @@
+﻿@page "/Round"
+
+<h4>New Order</h4>
+<form @onsubmit="HandleSubmit">
+    <label>Total:</label>
+    <input type="number" @bind="newOrder.Quantity" required min="1" />
+
+    <label>Product:</label>
+    <input type="text" @bind="newOrder.ProductName" required />
+
+    <label>Table:</label>
+    <input type="number" @bind="newOrder.TableNumber" required min="1" max="15" />
+
+    <button type="submit">Place Order</button>
+</form>
+
+@foreach (var group in orderedByTable)
+{
+    <div>
+        <h3>Orders for Table @group.Key</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Aantal</th>
+                <th>Product</th>
+                <th>Tafel</th>
+                <th>Acties</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var order in group.Value)
+            {
+                <tr>
+                    <td>@order.Quantity</td>
+                    <td>@order.ProductName</td>
+                    <td>@order.TableNumber</td>
+                    <td><button @onclick="() => RemoveOrder(order)">Remove</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+
+    List<Order> orders = new List<Order>();
+
+    Order newOrder = new Order();
+
+    Dictionary<int, List<Order>> orderedByTable = new Dictionary<int, List<Order>>();
+
+    protected override void OnInitialized()
+    {
+        // Zorg ervoor dat de bestaande bestellingen worden verwijderd
+        orders.Clear();
+    }
+
+    void GroupOrdersByTable()
+    {
+        orderedByTable = orders.GroupBy(o => o.TableNumber)
+            .ToDictionary(g => g.Key, g => g.ToList());
+    }
+
+    void HandleSubmit()
+    {
+        orders.Add(newOrder);
+        GroupOrdersByTable(); 
+        newOrder = new Order(); 
+    }
+
+    void RemoveOrder(Order order)
+    {
+        orders.Remove(order);
+        GroupOrdersByTable(); 
+    }
+
+    public class Order
+    {
+        public int Quantity { get; set; }
+        public string ProductName { get; set; }
+        public int TableNumber { get; set; }
+    }
+}

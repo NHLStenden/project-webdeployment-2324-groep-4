@@ -1,11 +1,14 @@
-﻿DROP DATABASE IF EXISTS brandstof;
-CREATE DATABASE brandstof;
+﻿DROP
+DATABASE IF EXISTS brandstof;
+CREATE
+DATABASE brandstof;
 
-USE brandstof;
+USE
+brandstof;
 
-CREATE TABLE waiter(
+CREATE TABLE waiter
+(
     Name nvarchar(255),
-    
     PRIMARY KEY (Name)
 );
 
@@ -19,7 +22,7 @@ CREATE TABLE products
 (
     Id    int AUTO_INCREMENT NOT NULL,
     Name  nvarchar(255)      NOT NULL,
-    Price decimal(15,2)           NOT NULL,
+    Price decimal(15,2)      NOT NULL,
     Category nvarchar(255),
 
     PRIMARY KEY (Id),
