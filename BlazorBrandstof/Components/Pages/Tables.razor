@@ -1,0 +1,23 @@
+﻿@page "/Tables"
+@using BlazorBrandstof.Repositories
+<h3>Tables</h3>
+
+
+
+<button class="btn btn-primary" @onclick="() => ModalDialog.Open()">Click me!</button>
+
+<ModalDialog @ref="@ModalDialog" Title="Hello World">
+    <div class="row">
+        <div class="col">
+            @foreach (var table in TableRepo.GetAll())
+            {
+                @table.Name
+            }
+        </div>
+        <button class="btn btn-primary"  @onclick="() => ModalDialog.Close()">Close</button>
+    </div>
+</ModalDialog>
+
+@code {
+    private ModalDialog ModalDialog { get; set; }
+}
