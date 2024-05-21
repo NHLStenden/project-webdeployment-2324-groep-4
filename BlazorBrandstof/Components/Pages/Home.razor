@@ -1,39 +1,65 @@
 ﻿@page "/Home"
+@using BlazorBrandstof.Models
 @using BlazorBrandstof.Repositories
 
 <PageTitle>Home</PageTitle>
+<button class="btn btn-primary" @onclick="() => ModalDialog.Open()">Show Tables</button>
+<ModalDialog @ref="@ModalDialog" Title="Tables">
+    <div class="row gap-2">
+        @foreach (var table in TableRepo.GetAll())
+        {
+        <div class="d-grid col-3 mx-auto">
+            <button type="button" class="btn btn-primary btn-lg">@table.Name</button>
+        </div>
+        }
+    </div>
+</ModalDialog>
 
 <div class="container text-center">
     <div class="row">
         <div class="col">
-            <h2>Bon</h2>
+            <h2>Round</h2>
+            @foreach (var product in CurrentRoundProducts)
+            {
+                <p>$@product.Price : @product.Name</p>
+            }
         </div>
         <div class="col">
             <h2>Warme Dranken</h2>
             @foreach (var product in ProductRepo.GetAll())
             {
-            <div class="col p-1">
-                <button type="button" class="btn btn-primary btn-lg">@product.Name $@product.Price</button>
-            </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
+                </div>
             }
         </div>
         <div class="col">
             <h2>Koude Dranken</h2>
-            @for (int i = 0; i < 10; i++)
+            @foreach (var product in ProductRepo.GetAll())
             {
-            <div class="col p-1">
-                <button type="button" class="btn  btn-lg">Primary</button>
-            </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
+                </div>
             }
         </div>
         <div class="col">
             <h2>Alcoholvrije Dranken</h2>
-            @for (int i = 0; i < 10; i++)
+            @foreach (var product in ProductRepo.GetAll())
             {
-            <div class="col p-1">
-                <button type="button" class="btn btn-primary btn-lg">Primary</button>
-            </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
+                </div>
             }
         </div>
     </div>
 </div>
+
+@code {
+    private ModalDialog ModalDialog { get; set; }
+    private List<Product> CurrentRoundProducts = new List<Product>();
+
+    private void AddToRound(Product product)
+    {
+        CurrentRoundProducts.Add(product);
+    }
+}
