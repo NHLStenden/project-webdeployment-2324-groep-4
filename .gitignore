@@ -6,3 +6,7 @@ riderModule.iml
 .idea/.idea.BlazorBrandstof/.idea/sqldialects.xml
 .idea/.idea.BlazorBrandstof/.idea/dataSources.xml
 .idea/config/applicationhost.config
+BlazorBrandstof/appsettings.Development.json
+BlazorBrandstof/appsettings.json
+BlazorBrandstof/appsettings.Development.json
+BlazorBrandstof/appsettings.json
