@@ -248,31 +248,46 @@ INSERT INTO products (Name, Price, Category)
 VALUES ('Pasta Pesto', '5.85', 'Lunch');
 
 INSERT INTO tables (Name)
-VALUES ('table1');
+VALUES ('Table 1');
 
 INSERT INTO tables (Name)
-VALUES ('table2');
+VALUES ('Table 2');
 
 INSERT INTO tables (Name)
-VALUES ('table3');
+VALUES ('Table 3');
 
 INSERT INTO tables (Name)
-VALUES ('table4');
+VALUES ('Table 4');
 
 INSERT INTO tables (Name)
-VALUES ('table5');
+VALUES ('Table 5');
 
 INSERT INTO tables (Name)
-VALUES ('table6');
+VALUES ('Table 6');
 
 INSERT INTO tables (Name)
-VALUES ('table7');
+VALUES ('Table 7');
 
 INSERT INTO tables (Name)
-VALUES ('table8');
+VALUES ('Table 8');
 
 INSERT INTO tables (Name)
-VALUES ('table9');
+VALUES ('Table 9');
 
 INSERT INTO tables (Name)
-VALUES ('table10');
+VALUES ('Table 10');
+
+INSERT INTO tables (Name)
+VALUES ('Table 11');
+
+INSERT INTO tables (Name)
+VALUES ('Table 12');
+
+INSERT INTO tables (Name)
+VALUES ('Table 13');
+
+INSERT INTO tables (Name)
+VALUES ('Table 14');
+
+INSERT INTO tables (Name)
+VALUES ('Table 15');
