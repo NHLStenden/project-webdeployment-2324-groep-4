@@ -13,7 +13,7 @@ public class ProductRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select Id, Name, Price from products";
+        const string sql = "select * from products";
         var products = connection.Query<Product>(sql);
 
         return products;
