@@ -48,8 +48,15 @@
             <h2>Round</h2>
             @foreach (var product in CurrentRoundProducts)
             {
-            <p>$@product.Price : @product.Name</p>
+                <p>$@product.Price : @product.Name</p>
+                
+            
             }
+
+
+            <a href="/CheckOut" class="btn btn-primary" role="button">Checkout</a>
+            
+            
         </div>
     </div>
 </div>
@@ -58,8 +65,11 @@
     private ModalDialog ModalDialog { get; set; }
     private List<Product> CurrentRoundProducts = new List<Product>();
 
+    
+
     private void AddToRound(Product product)
     {
         CurrentRoundProducts.Add(product);
     }
+    
 }
