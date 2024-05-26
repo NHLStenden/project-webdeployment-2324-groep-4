@@ -13,38 +13,23 @@ public class CategoryRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select * from categories";
-        var result = connection.Query<Category>(sql);
+        const string sql = "select c.Id, c.Name, p.Id, p.Name, p.Price, p.CategoryId from categories c inner join products p on p.CategoryId = c.Id";
         
-        
+        var result = connection.Query<Category, Product, Category>(sql, (category, product) => {
+            category.Products.Add(product);
+            return category;
+        }, splitOn: "p.Id");
 
         return result;
     }
 
-    public static Table? GetByName(string name)
+    public static Category? GetById(int id)
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select * from tables where Name = @Name";
-        var result = connection.QueryFirstOrDefault<Table>(sql, new { Name = name });
+        const string sql = "select * from categories where Id = @Id";
+        var result = connection.QueryFirstOrDefault<Category>(sql, new { Id = id });
 
         return result;
-    }
-
-    public static void Add(Table table)
-    {
-        using var connection = new MySqlConnection(ConnectionString);
-
-        const string sql = "insert into tables (Name) values (@Name);";
-        
-        var newId = connection.Execute(sql, table);
-    }
-
-    public static void Remove(Table table)
-    {
-        using var connection = new MySqlConnection(ConnectionString);
-
-        const string sql = "delete from products where Id = @Id";
-        var numEffectedRows = connection.Execute(sql, table);
     }
 }
