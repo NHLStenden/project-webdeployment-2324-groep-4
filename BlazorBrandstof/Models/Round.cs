@@ -2,9 +2,9 @@
 
 public class Round
 {
-    public int Id { get; set; }
+    public int RoundId { get; set; }
     public string Status { get; set; }
     public int OrderId { get; set; }
-    
-    public Dictionary<Product, int> AmountProducts { get; set; }
+
+    public List<Product> Products { get; set; } = new();
 }

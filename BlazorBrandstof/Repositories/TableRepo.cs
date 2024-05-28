@@ -42,7 +42,7 @@ public class TableRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
 
-        const string sql = "delete from products where Id = @Id";
+        const string sql = "delete from tables where Name = @Name";
         var numEffectedRows = connection.Execute(sql, table);
     }
 }
