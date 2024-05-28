@@ -14,49 +14,49 @@ CREATE TABLE waiter
 
 CREATE TABLE categories 
 (
-    Id int AUTO_INCREMENT NOT NULL,
+    CategoryId int AUTO_INCREMENT NOT NULL,
     Name nvarchar(255),
-    PRIMARY KEY (Id)
+    PRIMARY KEY (CategoryId)
 );
 
 CREATE TABLE products
 (
-    Id    int AUTO_INCREMENT NOT NULL,
+    ProductId    int AUTO_INCREMENT NOT NULL,
     Name  nvarchar(255)      NOT NULL,
     Price decimal(15,2)      NOT NULL,
     CategoryId int,
 
-    PRIMARY KEY (Id),
-    FOREIGN KEY (CategoryId) REFERENCES categories(Id)
+    PRIMARY KEY (ProductId),
+    FOREIGN KEY (CategoryId) REFERENCES categories(CategoryId)
 );
 
 CREATE TABLE tables
 (
-    Id  int AUTO_INCREMENT          NOT NULL,
+    TableId  int AUTO_INCREMENT          NOT NULL,
     Name   nvarchar(255)            NOT NULL,
-    PRIMARY KEY (Id)
+    PRIMARY KEY (TableId)
 );
 
 CREATE TABLE orders
 (
-    Id        int AUTO_INCREMENT NOT NULL,
+    OrderId        int AUTO_INCREMENT NOT NULL,
     Timestamp datetime           NOT NULL default CURRENT_TIMESTAMP,
     TableId   int,
     WaiterName nvarchar(255), 
 
-    PRIMARY KEY (Id),
-    FOREIGN KEY (TableId) REFERENCES tables (Id),
+    PRIMARY KEY (OrderId),
+    FOREIGN KEY (TableId) REFERENCES tables (TableId),
     FOREIGN KEY (WaiterName) REFERENCES waiter (Name)
 );
 
 CREATE TABLE rounds
 (
-    Id      int AUTO_INCREMENT NOT NULL,
+    RoundId      int AUTO_INCREMENT NOT NULL,
     Status  nvarchar(255),
     OrderId int,
 
-    PRIMARY KEY (Id),
-    FOREIGN KEY (OrderId) REFERENCES orders (Id)
+    PRIMARY KEY (RoundId),
+    FOREIGN KEY (OrderId) REFERENCES orders (OrderId)
 );
 
 CREATE TABLE product_round
@@ -67,8 +67,8 @@ CREATE TABLE product_round
     Amount     int NOT NULL,
     AmountPaid int,
 
-    FOREIGN KEY (ProductId) REFERENCES products (Id),
-    FOREIGN KEY (RoundId) REFERENCES rounds (Id)
+    FOREIGN KEY (ProductId) REFERENCES products (ProductId),
+    FOREIGN KEY (RoundId) REFERENCES rounds (RoundId)
 );
 
 INSERT INTO waiter (Name) 

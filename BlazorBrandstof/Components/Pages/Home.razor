@@ -1,65 +1,102 @@
-﻿@page "/Home"
+﻿@page "/"
 @using BlazorBrandstof.Models
 @using BlazorBrandstof.Repositories
 
 <PageTitle>Home</PageTitle>
-<button class="btn btn-primary" @onclick="() => ModalDialog.Open()">Show Tables</button>
-<ModalDialog @ref="@ModalDialog" Title="Tables">
+
+<button class="btn btn-primary" @onclick="() => TableDialog.Open()" disabled="@(CurrentRound != null)">Show Tables</button><br>
+
+<ModalDialog @ref="@TableDialog" Title="Tables">
     <div class="row gap-2">
         @foreach (var table in TableRepo.GetAll())
         {
-        <div class="d-grid col-3 mx-auto">
-            <button type="button" class="btn btn-primary btn-lg">@table.Name</button>
-        </div>
+            <div class="d-grid col-3 mx-auto">
+                <button type="button" class="btn btn-primary btn-lg" @onclick="() => StartOrder(table)">@table.Name</button>
+            </div>
         }
     </div>
 </ModalDialog>
 
 <div class="container text-center">
     <div class="row">
-        <div class="col">
-            <h2>Warm Drinks</h2>
-            @foreach (var product in ProductRepo.GetAll())
-            {
-                <div class="col p-1">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
-                </div>
-            }
-        </div>
-        <div class="col">
-            <h2>Cold Drinks</h2>
-            @foreach (var product in ProductRepo.GetAll())
-            {
-                <div class="col p-1">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
-                </div>
-            }
-        </div>
-        <div class="col">
-            <h2>Non-Alcoholic Drinks</h2>
-            @foreach (var product in ProductRepo.GetAll())
-            {
-                <div class="col p-1">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
-                </div>
-            }
-        </div>
+        @foreach (var category in CategoryRepo.GetAll())
+        {
+            <div class="col">
+                <h2>@category.Name</h2>
+                @foreach (var product in category.Products)
+                {
+                    <div class="col p-1">
+                        <button type="button" class="btn btn-primary btn-lg" disabled="@(CurrentOrder == null)" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
+                    </div>
+                }
+            </div>
+        }
         <div class="col">
             <h2>Round</h2>
-            @foreach (var product in CurrentRoundProducts)
+            @if (CurrentOrder != null)
             {
-            <p>$@product.Price : @product.Name</p>
+                <button type="button" class="btn btn-primary" @onclick="() => NextRound()" disabled="@(CurrentRound == null || CurrentRound.Products.Count == 0)">End Round</button>
+                
+                for (int i = CurrentOrder.Rounds.Count - 1; i >= 0; i--)
+                {
+                    var round = CurrentOrder.Rounds[i];
+
+                    <p><b>Round @(i + 1) -----------</b></p>
+                    
+                    var productIdAmountDictionary = round.Products.GroupBy(item => item.ProductId)
+                        .ToDictionary(group => group.Key, group => group.Count());
+                    
+                    @foreach (var pair in productIdAmountDictionary)
+                    {
+                        var product = ProductRepo.GetById(pair.Key);
+                        
+                        <p>@(pair.Value)x @product.Name $@product.Price</p>
+                    }
+                }
             }
         </div>
     </div>
 </div>
 
 @code {
-    private ModalDialog ModalDialog { get; set; }
-    private List<Product> CurrentRoundProducts = new List<Product>();
+    private ModalDialog TableDialog { get; set; } = null!;
+    private Models.Round? CurrentRound { get; set; }
+    private Models.Order? CurrentOrder { get; set; }
 
     private void AddToRound(Product product)
     {
-        CurrentRoundProducts.Add(product);
+        if(CurrentRound == null) return;
+        
+        CurrentRound.Products.Add(product);
     }
+
+    private void StartOrder(Table table)
+    {
+        TableDialog.Close();
+
+        CurrentOrder = OrderRepo.Add(new Order()
+        {
+            Timestamp = DateTime.Now,
+            WaiterName = "Waiter1",
+            TableId = table.TableId,
+        });
+
+        NextRound();
+    }
+
+    private void NextRound()
+    {
+        if (CurrentOrder == null) return;
+
+        if (CurrentRound != null)
+            RoundRepo.Update(CurrentRound);
+
+        CurrentRound = RoundRepo.Add(new Models.Round()
+        {
+            OrderId = CurrentOrder.OrderId,
+            Status = "Ready",
+        });
+        CurrentOrder.Rounds.Add(CurrentRound!);
+    }
+
 }

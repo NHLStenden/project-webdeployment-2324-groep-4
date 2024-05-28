@@ -23,7 +23,7 @@ public class ProductRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select * from products where Id = @Id";
+        const string sql = "select * from products where ProductId = @Id";
         var product = connection.QueryFirstOrDefault<Product>(sql, new { Id = id });
 
         return product;
