@@ -11,9 +11,12 @@ public class ProductRepo
     
     public static IEnumerable<Product> GetAll()
     {
+        // maak verbinding met database
         using var connection = new MySqlConnection(ConnectionString);
         
         const string sql = "select * from products";
+        
+        // haal producten op uit database
         var products = connection.Query<Product>(sql);
 
         return products;
@@ -23,6 +26,7 @@ public class ProductRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
         
+        // haal product op waar Id = id
         const string sql = "select * from products where ProductId = @Id";
         var product = connection.QueryFirstOrDefault<Product>(sql, new { Id = id });
 
@@ -32,7 +36,7 @@ public class ProductRepo
     public static Product Add(Product product)
     {
         using var connection = new MySqlConnection(ConnectionString);
-
+        
         const string sql = "insert into products (Name, Price) values (@Name, @Price); SELECT LAST_INSERT_ID();";
         
         var newId = connection.ExecuteScalar<int>(sql, product);

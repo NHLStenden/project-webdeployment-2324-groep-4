@@ -15,6 +15,7 @@ public class RoundRepo
         
         //const string sql = "select * from rounds";
         
+        // query een gecombineerde lijst van rounds, product_round, products
         var sql = @"SELECT r.RoundId, Status, OrderId, p.ProductId, Name, Price, CategoryId
                 FROM Rounds r
                 INNER JOIN product_round pr ON pr.RoundId = r.RoundId
@@ -31,18 +32,6 @@ public class RoundRepo
             groupedRound.Products = g.Select(r => r.Products.Single()).ToList();
             return groupedRound;
         });
-
-        foreach(var round in result)
-        {
-            Console.Write($"{round.RoundId}: ");
-		
-            foreach(var product in round.Products)
-            {
-                Console.Write($" {product.Name} ");
-            }
-		
-            Console.Write(Environment.NewLine);
-        }
         
         return result;
     }
@@ -93,6 +82,7 @@ public class RoundRepo
         const string sql = "update rounds set Status = @Status, OrderId = @OrderId where RoundId = @RoundId";
         var numEffectedRows = connection.Execute(sql, round);
 
+        // Maak een dictionary van productId, Aantal
         var productIdAmountDictionary = round.Products.GroupBy(item => item.ProductId)
             .ToDictionary(group => group.Key, group => group.Count());
         

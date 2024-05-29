@@ -21,6 +21,8 @@
     <div class="row">
         @foreach (var category in CategoryRepo.GetAll())
         {
+            // maak kolom voor elke categorie
+            
             <div class="col">
                 <h2>@category.Name</h2>
                 @foreach (var product in category.Products)
@@ -43,6 +45,7 @@
 
                     <p><b>Round @(i + 1) -----------</b></p>
                     
+                    // Maak een dictionary van productId, Aantal
                     var productIdAmountDictionary = round.Products.GroupBy(item => item.ProductId)
                         .ToDictionary(group => group.Key, group => group.Count());
                     
