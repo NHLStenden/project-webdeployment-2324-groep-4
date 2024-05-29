@@ -7,6 +7,7 @@
 <button class="btn btn-primary" @onclick="() => TableDialog.Open()" disabled="@(CurrentRound != null)">Show Tables</button><br>
 
 <ModalDialog @ref="@TableDialog" Title="Tables">
+    // ChildContent
     <div class="row gap-2">
         @foreach (var table in TableRepo.GetAll())
         {
