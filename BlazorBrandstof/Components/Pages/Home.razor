@@ -1,13 +1,13 @@
 ﻿@page "/"
 @using BlazorBrandstof.Models
 @using BlazorBrandstof.Repositories
+@using BlazorBrandstof.Repositories.Addons
 
 <PageTitle>Home</PageTitle>
 
 <button class="btn btn-primary" @onclick="() => TableDialog.Open()" disabled="@(CurrentRound != null)">Show Tables</button><br>
 
-<ModalDialog @ref="@TableDialog" Title="Tables">
-    // ChildContent
+<ModalDialog @ref="@TableDialog" Title="Tables" CanClose="false">
     <div class="row gap-2">
         @foreach (var table in TableRepo.GetAll())
         {
@@ -16,6 +16,22 @@
             </div>
         }
     </div>
+</ModalDialog>
+
+<ModalDialog @ref="@AddonDialog" Title="Addons" CanClose="true">
+    <form>
+    @foreach (var addonCategory in AddonCategoryRepo.GetAll())
+    {
+        <div>
+            <h3>@addonCategory.Name</h3>
+            @foreach (var addon in AddonRepo.GetByCategoryId(addonCategory.AddonCategoryId)!)
+            {
+                <input type="radio" name="@addonCategory.Name" id="@addon.Name" value="@addon.Name">
+                <label for="@addon.Name">@addon.Name</label><br>
+            }
+        </div>
+    }
+    </form>
 </ModalDialog>
 
 <div class="container text-center">
@@ -29,7 +45,7 @@
                 @foreach (var product in category.Products)
                 {
                     <div class="col p-1">
-                        <button type="button" class="btn btn-primary btn-lg" disabled="@(CurrentOrder == null)" @onclick="() => AddToRound(product)">@product.Name $@product.Price</button>
+                        <button type="button" class="btn btn-primary btn-lg" disabled="@(CurrentOrder == null)" @onclick="() => ShowAddons(product)">@product.Name $@product.Price</button>
                     </div>
                 }
             </div>
@@ -64,8 +80,15 @@
 
 @code {
     private ModalDialog TableDialog { get; set; } = null!;
+    public ModalDialog AddonDialog { get; set; } = null!;
+    
     private Models.Round? CurrentRound { get; set; }
     private Models.Order? CurrentOrder { get; set; }
+
+    private void ShowAddons(Product product)
+    {
+        AddonDialog.Open();
+    }
 
     private void AddToRound(Product product)
     {
