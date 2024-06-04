@@ -71,6 +71,34 @@ CREATE TABLE product_round
     FOREIGN KEY (RoundId) REFERENCES rounds (RoundId)
 );
 
+CREATE TABLE add_on_categories
+(
+    AddonCategoryId   int AUTO_INCREMENT NOT NULL,
+    Name nvarchar(255),
+
+    PRIMARY KEY (AddonCategoryId)
+);
+
+CREATE TABLE addons
+(
+    AddonId              int AUTO_INCREMENT NOT NULL,
+    Name            nvarchar(255)      NOT NULL,
+    AddonCategoryId int                NOT NULL,
+
+    PRIMARY KEY (AddonId),
+    FOREIGN KEY (AddonCategoryId) REFERENCES add_on_categories (AddonCategoryId)
+);
+
+CREATE TABLE product_addons
+(
+    ProductId int,
+    AddOnId   int,
+    Price     integer,
+
+    FOREIGN KEY (ProductId) REFERENCES products (ProductId),
+    FOREIGN KEY (AddOnId) REFERENCES addons (AddonId)
+);
+
 INSERT INTO waiter (Name) 
 VALUES ('Waiter1');
 
@@ -292,3 +320,43 @@ VALUES ('Table 14');
 
 INSERT INTO tables (Name)
 VALUES ('Table 15');
+
+INSERT INTO add_on_categories (Name)
+VALUES ('Milk');
+
+INSERT INTO add_on_categories (Name)
+VALUES ('Syrup');
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Soy Milk', 1);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Oat Milk', 1);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Coconut Milk', 1);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Regular Milk', 1);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Caramel', 2);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Cinnamon', 2);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Vanilla', 2);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('No Syrup', 2);
+
+INSERT INTO add_on_categories (Name)
+VALUES ('Lunch');
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('With Kinchi', 3);
+
+INSERT INTO addons (Name, AddonCategoryId)
+VALUES ('Without Kinchi', 3);
+
