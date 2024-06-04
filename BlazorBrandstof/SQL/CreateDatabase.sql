@@ -99,6 +99,18 @@ CREATE TABLE product_addons
     FOREIGN KEY (AddOnId) REFERENCES addons (AddonId)
 );
 
+CREATE TABLE Users
+(
+   UserName NVARCHAR(255) NOT NULL,
+   PassWord NVARCHAR(255) NOT NULL  
+);
+
+INSERT INTO Users (Username, PassWord)
+VALUES ('Personeel', 'Personeel1');
+
+INSERT INTO Users (Username, PassWord)
+VALUES ('Manager', 'Manager1');
+
 INSERT INTO waiter (Name) 
 VALUES ('Waiter1');
 
