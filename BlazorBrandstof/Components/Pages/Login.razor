@@ -1,6 +1,65 @@
-﻿@page "/login"
-<h3>Login</h3>
+﻿@page "/"
+@inject NavigationManager NavManager
+@using BlazorBrandstof.Repositories
 
-@code {
-    
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inloggen</title>
+</head>
+<body>
+
+<center>
+    <h3>Inloggen</h3>
+
+    <form method="post" @onsubmit="Submit">
+        <label for="username">Gebruikersnaam:</label>
+        <InputText @bind-Value="Model!.Username"></InputText>
+        <br>
+        <label for="password">Wachtwoord:</label>
+        <InputText @bind-Value="Model!.Password"></InputText>
+        <br>
+        <button type="submit">Inloggen</button>
+    </form>
+
+    @if (IncorrectLogin)
+    {
+    <p>Incorrect username or password</p>
+    }
+
+</center>
+
+</body>
+</html>
+
+@code 
+{
+    public LoginInfo Model { get; set; }
+    public bool IncorrectLogin = false;
+
+    protected override void OnInitialized()
+    {
+        Model ??= new LoginInfo();
+    }
+
+    private void Submit()
+    {
+        if (UserRepo.Verify(Model.Username!, Model.Password!))
+        {
+            NavManager.NavigateTo("/Home");
+        }
+        else
+        {
+            IncorrectLogin = true;
+        }
+    }
+
+    public class LoginInfo
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+    }
 }
