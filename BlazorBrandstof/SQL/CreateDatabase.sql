@@ -106,10 +106,10 @@ CREATE TABLE Users
 );
 
 INSERT INTO Users (Username, PassWord)
-VALUES ('Personeel', 'Personeel1');
+VALUES ('Personeel', 'e3657e9b618135800260e1358290407c8afcf52ce16f5a14ed0fd418bfb4e2fe');
 
 INSERT INTO Users (Username, PassWord)
-VALUES ('Manager', 'Manager1');
+VALUES ('Manager', '67e06322c104f451a8ce3d2e1a40db0c0b91ddb4cd8c5fdace6425ed6e624a97');
 
 INSERT INTO waiter (Name) 
 VALUES ('Waiter1');
