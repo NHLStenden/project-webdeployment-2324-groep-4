@@ -1,1 +1,86 @@
-﻿
+﻿/* General styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #6F4E37;
+    border-color: #6F4E37;
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #05472A;
+    border-color: #05472A;
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Modal dialog styles */
+.modal-dialog {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-dialog .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.modal-dialog .col-3 {
+    margin: 10px 0;
+}
+
+/* Category and product styles */
+.row .col:not(:last-child) {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.row .col:not(:last-child) p-1 {
+    padding: 10px 0;
+}
+
+.row .col:not(:last-child) h2 {
+    color: #007bff;
+}
+
+/* Round section styles */
+.row .col:last-child {
+    background-color: #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: auto; /* Align to the right */
+}
+
+.row .col:last-child p {
+    margin: 5px 0;
+    font-weight: bold;
+    color: #495057;
+}
+
+.row .col:last-child button {
+    margin-bottom: 20px;
+}

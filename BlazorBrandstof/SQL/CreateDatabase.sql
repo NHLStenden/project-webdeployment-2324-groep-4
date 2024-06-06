@@ -274,15 +274,6 @@ INSERT INTO products (Name, Price, CategoryId)
 VALUES ('Grandma\'s meatball', '6.20', 6);
 
 INSERT INTO products (Name, Price, CategoryId)
-VALUES ('LBS Circulware cup', '2.00', 7);
-
-INSERT INTO products (Name, Price, CategoryId)
-VALUES ('LBS Circulware lid', '2.00', 7);
-
-INSERT INTO products (Name, Price, CategoryId)
-VALUES ('Re-usable Cutlery set', '4.50', 7);
-
-INSERT INTO products (Name, Price, CategoryId)
 VALUES ('Wentelteefjes', '5.10', 6);
 
 INSERT INTO products (Name, Price, CategoryId)

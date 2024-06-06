@@ -2,38 +2,26 @@
 @inject NavigationManager NavManager
 @using BlazorBrandstof.Repositories
 
+<div class="container">
+    <div class="form-container">
+        <h3>Log in</h3>
 
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inloggen</title>
-</head>
-<body>
+        <form method="post" @onsubmit="Submit">
+            <label for="username">Username:</label>
+            <input type="text" @bind="Model.Username">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" @bind="Model.Password">
+            <br>
+            <button type="submit">Log in</button>
+        </form>
 
-<center>
-    <h3>Inloggen</h3>
-
-    <form method="post" @onsubmit="Submit">
-        <label for="username">Gebruikersnaam:</label>
-        <InputText @bind-Value="Model!.Username"></InputText>
-        <br>
-        <label for="password">Wachtwoord:</label>
-        <InputText @bind-Value="Model!.Password"></InputText>
-        <br>
-        <button type="submit">Inloggen</button>
-    </form>
-
-    @if (IncorrectLogin)
-    {
-    <p>Incorrect username or password</p>
-    }
-
-</center>
-
-</body>
-</html>
+        @if (IncorrectLogin)
+        {
+        <p class="error-message">Incorrect username or password</p>
+        }
+    </div>
+</div>
 
 @code 
 {
