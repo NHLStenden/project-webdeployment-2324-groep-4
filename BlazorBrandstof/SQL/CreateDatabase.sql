@@ -138,9 +138,6 @@ VALUES ('Snacks');
 INSERT INTO categories (Name)
 VALUES ('Lunch');
 
-INSERT INTO categories (Name)
-VALUES ('Re-usables / disposables');
-
 INSERT INTO products (Name, Price, CategoryId) 
 VALUES ('Coffee creme', '1.22', 1);
 
