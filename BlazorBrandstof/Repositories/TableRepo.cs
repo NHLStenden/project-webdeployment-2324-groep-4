@@ -19,12 +19,12 @@ public class TableRepo
         return result;
     }
 
-    public static Table? GetByName(string name)
+    public static Table? GetById(int id)
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select * from tables where Name = @Name";
-        var result = connection.QueryFirstOrDefault<Table>(sql, new { Name = name });
+        const string sql = "select * from tables where TableId = @Id";
+        var result = connection.QueryFirstOrDefault<Table>(sql, new { Id = id });
 
         return result;
     }
