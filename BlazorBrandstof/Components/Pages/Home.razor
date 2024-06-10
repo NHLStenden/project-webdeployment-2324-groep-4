@@ -6,12 +6,12 @@
 
 <PageTitle>Home</PageTitle>
 
-<button class="btn btn-primary" @onclick="() => TableDialog.Open()">Show Tables</button><br>
-
 @if (CurrentOrder != null)
 {
-    <p>Served by: @CurrentOrder.WaiterName | Table @CurrentOrder.TableId | Round @CurrentOrder.Rounds.Count | @CurrentOrder.Timestamp.ToShortTimeString()</p>
+<p>Served by: @CurrentOrder.WaiterName | Table @CurrentOrder.TableId | Round @CurrentOrder.Rounds.Count | @CurrentOrder.Timestamp.ToShortTimeString()</p>
 }
+
+<button class="btn btn-primary" @onclick="() => TableDialog.Open()">Show Tables</button><br>
 
 <ModalDialog @ref="@TableDialog" Title="Tables" CanClose="false">
     <div class="row gap-2">
@@ -147,6 +147,7 @@
         if (order != null)
         {
             CurrentOrder = order;
+            CurrentRound = order.Rounds.LastOrDefault();
         }
         else
         {
@@ -156,6 +157,7 @@
                 WaiterName = "Waiter1",
                 TableId = table.TableId,
             });
+            CurrentRound = null;
         }
         
         if(CurrentRound == null)
