@@ -106,10 +106,10 @@ CREATE TABLE Users
 );
 
 INSERT INTO Users (Username, PassWord)
-VALUES ('Personeel', 'Personeel1');
+VALUES ('Personeel', 'e3657e9b618135800260e1358290407c8afcf52ce16f5a14ed0fd418bfb4e2fe');
 
 INSERT INTO Users (Username, PassWord)
-VALUES ('Manager', 'Manager1');
+VALUES ('Manager', '67e06322c104f451a8ce3d2e1a40db0c0b91ddb4cd8c5fdace6425ed6e624a97');
 
 INSERT INTO waiter (Name) 
 VALUES ('Waiter1');
@@ -137,9 +137,6 @@ VALUES ('Snacks');
 
 INSERT INTO categories (Name)
 VALUES ('Lunch');
-
-INSERT INTO categories (Name)
-VALUES ('Re-usables / disposables');
 
 INSERT INTO products (Name, Price, CategoryId) 
 VALUES ('Coffee creme', '1.22', 1);
@@ -272,15 +269,6 @@ VALUES ('Pot of the Season', '7.20', 6);
 
 INSERT INTO products (Name, Price, CategoryId)
 VALUES ('Grandma\'s meatball', '6.20', 6);
-
-INSERT INTO products (Name, Price, CategoryId)
-VALUES ('LBS Circulware cup', '2.00', 7);
-
-INSERT INTO products (Name, Price, CategoryId)
-VALUES ('LBS Circulware lid', '2.00', 7);
-
-INSERT INTO products (Name, Price, CategoryId)
-VALUES ('Re-usable Cutlery set', '4.50', 7);
 
 INSERT INTO products (Name, Price, CategoryId)
 VALUES ('Wentelteefjes', '5.10', 6);
