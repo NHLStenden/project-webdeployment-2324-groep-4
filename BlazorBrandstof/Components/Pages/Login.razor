@@ -7,15 +7,19 @@
         <h3>Log in</h3>
 
         <form method="post" @onsubmit="Submit">
+            <!-- Hier kan je de gebruikersnaam invoeren. -->
             <label for="username">Username:</label>
             <input type="text" @bind="Model.Username">
             <br>
+            <!-- Hier kan je de wachtwoord invoeren. -->
             <label for="password">Password:</label>
             <input type="password" @bind="Model.Password">
             <br>
+            <!-- Dit is de inlogknop -->
             <button type="submit">Log in</button>
         </form>
 
+        <!-- als de inloggegevens verkeerd zijn geeft die een foutmelding -->
         @if (IncorrectLogin)
         {
         <p class="error-message">Incorrect username or password</p>
@@ -25,29 +29,38 @@
 
 @code 
 {
+    // Login wat boven is ingevoerd Model.Username krijgt een binding van LoginInfo Model
     public LoginInfo Model { get; set; }
+    // De boolean houdt bij of de inlogpoging juist is of niet.
     public bool IncorrectLogin = false;
 
+    // Wordt aangeroepen wanneer de component wordt geïnitialiseerd
     protected override void OnInitialized()
     {
+        // Controleert of model niet null is, anders initialiseer een nieuw LoginInfo
         Model ??= new LoginInfo();
     }
 
+    // Methode die wordt aangeroepen bij het indienen van het formulier.
     private void Submit()
     {
+        // Controleert de inloggegevens vai de UserRepo.Verify methode
         if (UserRepo.Verify(Model.Username!, Model.Password!))
         {
+            // Als de inloggegevens correct zijn, ga dan naar Home pagina.
             NavManager.NavigateTo("/Home");
         }
         else
         {
+            // Als inloggegevens onjuist zijn, stel IncorrectLogin dan op true om foutmelding bericht te tonen.
             IncorrectLogin = true;
         }
     }
 
+    // Klasse voor het binden van de gebruikersnaam en het wachtwoord
     public class LoginInfo
     {
-        public string? Username { get; set; }
-        public string? Password { get; set; }
+        public string? Username { get; set; } // Variable gebruikersnaam wat de gebruiker invoerd.
+        public string? Password { get; set; } // Variable wachtwoord wat de gebruiker invoerd
     }
 }
