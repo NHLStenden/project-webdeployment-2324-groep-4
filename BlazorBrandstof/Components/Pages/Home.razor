@@ -1,37 +1,54 @@
 ﻿@page "/Home"
 @using BlazorBrandstof.Models
+@using BlazorBrandstof.Models.Addons
 @using BlazorBrandstof.Repositories
 @using BlazorBrandstof.Repositories.Addons
 
 <PageTitle>Home</PageTitle>
 
-<button class="btn btn-primary" @onclick="() => TableDialog.Open()" disabled="@(CurrentRound != null)">Show Tables</button><br>
+<button class="btn btn-primary" @onclick="() => TableDialog.Open()">Show Tables</button><br>
+
+@if (CurrentOrder != null)
+{
+    <p>Served by: @CurrentOrder.WaiterName | Table @CurrentOrder.TableId | Round @CurrentOrder.Rounds.Count | @CurrentOrder.Timestamp.ToShortTimeString()</p>
+}
 
 <ModalDialog @ref="@TableDialog" Title="Tables" CanClose="false">
     <div class="row gap-2">
         @foreach (var table in TableRepo.GetAll())
         {
             <div class="d-grid col-3 mx-auto">
-                <button type="button" class="btn btn-primary btn-lg" @onclick="() => StartOrder(table)">@table.Name</button>
+                <button type="button" class="btn btn-primary btn-lg" @onclick="() => SelectOrCreateOrder(table)">@table.Name</button>
             </div>
         }
     </div>
 </ModalDialog>
 
 <ModalDialog @ref="@AddonDialog" Title="Addons" CanClose="true">
-    <form>
-    @foreach (var addonCategory in AddonCategoryRepo.GetAll())
-    {
-        <div>
-            <h3>@addonCategory.Name</h3>
-            @foreach (var addon in AddonRepo.GetByCategoryId(addonCategory.AddonCategoryId)!)
-            {
-                <input type="radio" name="@addonCategory.Name" id="@addon.Name" value="@addon.Name">
-                <label for="@addon.Name">@addon.Name</label><br>
-            }
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                @foreach (var addonCategory in AddonCategoryRepo.GetAll())
+                {
+                    <h3>@addonCategory.Name</h3>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @foreach (var addon in AddonRepo.GetByCategoryId(addonCategory.AddonCategoryId)!)
+                        {
+                            <button type="button" class="btn btn-primary" @onclick="() => SelectAddon(addonCategory, addon)">@addon.Name</button>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col">
+                @foreach (var pair in _selectedAddons)
+                {
+                    <p>@pair.Value</p>
+                    <br>
+                }
+                <button class="btn btn-primary" @onclick="() => AddToCurrentRound(CurrentProduct!, _selectedAddons)">Order</button>
+            </div>
         </div>
-    }
-    </form>
+    </div>
 </ModalDialog>
 
 <div class="container text-center">
@@ -39,7 +56,7 @@
         @foreach (var category in CategoryRepo.GetAll())
         {
             // maak kolom voor elke categorie
-            
+
             <div class="col">
                 <h2>@category.Name</h2>
                 @foreach (var product in category.Products)
@@ -55,22 +72,25 @@
             @if (CurrentOrder != null)
             {
                 <button type="button" class="btn btn-primary" @onclick="() => NextRound()" disabled="@(CurrentRound == null || CurrentRound.Products.Count == 0)">End Round</button>
-                
+
                 for (int i = CurrentOrder.Rounds.Count - 1; i >= 0; i--)
                 {
                     var round = CurrentOrder.Rounds[i];
 
-                    <p><b>Round @(i + 1) -----------</b></p>
-                    
-                    // Maak een dictionary van productId, Aantal
-                    var productIdAmountDictionary = round.Products.GroupBy(item => item.ProductId)
-                        .ToDictionary(group => group.Key, group => group.Count());
-                    
-                    @foreach (var pair in productIdAmountDictionary)
+                    <p>
+                        <b>Round @(i + 1) -----------</b>
+                    </p>
+
+                    foreach (var product in round.Products)
                     {
-                        var product = ProductRepo.GetById(pair.Key);
-                        
-                        <p>@(pair.Value)x @product.Name $@product.Price</p>
+                        <p>
+                            <b>@product.Name $@product.Price</b>
+                        </p>
+
+                        foreach (var addon in product.Addons)
+                        {
+                            <p>| @addon</p>
+                        }
                     }
                 }
             }
@@ -81,34 +101,65 @@
 @code {
     private ModalDialog TableDialog { get; set; } = null!;
     public ModalDialog AddonDialog { get; set; } = null!;
-    
+
     private Models.Round? CurrentRound { get; set; }
     private Models.Order? CurrentOrder { get; set; }
 
+    private Product? CurrentProduct { get; set; }
+
+    private readonly Dictionary<string, string> _selectedAddons = new();
+
+    private void SelectAddon(AddonCategory category, Addon addon)
+    {
+        if (_selectedAddons.ContainsKey(category.Name))
+        {
+            _selectedAddons.Remove(category.Name);
+        }
+
+        _selectedAddons.Add(category.Name, addon.Name);
+    }
+
     private void ShowAddons(Product product)
     {
+        CurrentProduct = product;
         AddonDialog.Open();
     }
 
-    private void AddToRound(Product product)
+    private void AddToCurrentRound(Product product, Dictionary<string, string> addons)
     {
-        if(CurrentRound == null) return;
-        
+        AddonDialog.Close();
+
+        if (CurrentRound == null) return;
+
+        product.Addons = addons.Values.ToList();
+        _selectedAddons.Clear();
+
         CurrentRound.Products.Add(product);
+        CurrentProduct = null;
     }
 
-    private void StartOrder(Table table)
+    private void SelectOrCreateOrder(Table table)
     {
         TableDialog.Close();
 
-        CurrentOrder = OrderRepo.Add(new Order()
-        {
-            Timestamp = DateTime.Now,
-            WaiterName = "Waiter1",
-            TableId = table.TableId,
-        });
+        Order? order = OrderRepo.GetAll().FirstOrDefault(o => o.TableId == table.TableId);
 
-        NextRound();
+        if (order != null)
+        {
+            CurrentOrder = order;
+        }
+        else
+        {
+            CurrentOrder = OrderRepo.Add(new Order()
+            {
+                Timestamp = DateTime.Now,
+                WaiterName = "Waiter1",
+                TableId = table.TableId,
+            });
+        }
+        
+        if(CurrentRound == null)
+            NextRound();
     }
 
     private void NextRound()
