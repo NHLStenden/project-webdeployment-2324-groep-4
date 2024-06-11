@@ -42,7 +42,8 @@ CREATE TABLE orders
     OrderId        int AUTO_INCREMENT NOT NULL,
     Timestamp datetime           NOT NULL default CURRENT_TIMESTAMP,
     TableId   int,
-    WaiterName nvarchar(255), 
+    WaiterName nvarchar(255),
+    Status nvarchar(255),
 
     PRIMARY KEY (OrderId),
     FOREIGN KEY (TableId) REFERENCES tables (TableId),

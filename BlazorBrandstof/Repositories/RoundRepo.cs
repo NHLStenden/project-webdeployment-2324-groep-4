@@ -16,24 +16,26 @@ public class RoundRepo
         //const string sql = "select * from rounds";
         
         // query een gecombineerde lijst van rounds, product_round, products
-        var sql = @"SELECT r.RoundId, Status, OrderId, p.ProductId, Name, Price, CategoryId
-                FROM Rounds r
-                INNER JOIN product_round pr ON pr.RoundId = r.RoundId
-                INNER JOIN products p ON p.ProductId = pr.ProductId";
+        const string sql = @"select * from rounds";
 				
-        var rounds = connection.Query<Round, Product, Round>(sql, (round, product) => {
-            round.Products.Add(product);
-            return round;
-        }, splitOn: "OrderId");
-	
-        var result = rounds.GroupBy(r => r.OrderId).Select(g =>
+        var rounds = connection.Query<Round>(sql).ToList();
+
+        foreach (var round in rounds)
         {
-            var groupedRound = g.First();
-            groupedRound.Products = g.Select(r => r.Products.Single()).ToList();
-            return groupedRound;
-        });
+            const string sqlProducts = "select * from product_round where RoundId = @RoundId";
+
+            var productsRound = connection.Query(sqlProducts, new { RoundId = round.RoundId});
+
+            foreach (var entry in productsRound)
+            {
+                for (int i = 0; i < entry.Amount; i++)
+                {
+                    round.Products.Add(ProductRepo.GetById(entry.ProductId));
+                }
+            }
+        }
         
-        return result;
+        return rounds;
     }
 
     public static Round? GetById(int id)
@@ -41,9 +43,20 @@ public class RoundRepo
         using var connection = new MySqlConnection(ConnectionString);
         
         const string sql = "select * from rounds where RoundId = @Id";
-        var result = connection.QueryFirstOrDefault<Round>(sql, new { Id = id });
+        var round = connection.QueryFirstOrDefault<Round>(sql, new { Id = id });
+        
+        const string sqlProducts = "select * from product_round where RoundId = @RoundId";
+        var productsRound = connection.Query(sqlProducts, new { RoundId = round.RoundId });
 
-        return result;
+        foreach (var entry in productsRound)
+        {
+            for (int i = 0; i < entry.Amount; i++)
+            {
+                round.Products.Add(ProductRepo.GetById(entry.ProductId));
+            }
+        }
+
+        return round;
     }
 
     public static Round? Add(Round round)
