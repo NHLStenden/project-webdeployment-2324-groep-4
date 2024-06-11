@@ -46,7 +46,7 @@ public class OrderRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
 
-        const string sql = "insert into orders (Timestamp, TableId, WaiterName) values (@Timestamp, @TableId, @WaiterName); SELECT LAST_INSERT_ID();";
+        const string sql = "insert into orders (Timestamp, TableId, WaiterName, Status) values (@Timestamp, @TableId, @WaiterName, @Status); SELECT LAST_INSERT_ID();";
         
         var newId = connection.ExecuteScalar<int>(sql, order);
         return GetById(newId)!;
@@ -58,5 +58,13 @@ public class OrderRepo
 
         const string sql = "delete from orders where OrderId = @Id";
         var numEffectedRows = connection.Execute(sql, order);
+    }
+    
+    public static void Update(Order order)
+    {
+        using var connection = new MySqlConnection(ConnectionString);
+
+        const string sql = "update orders set Status = @Status where OrderId = @OrderId";
+        var numEffectedRows = connection.Execute(sql, new { Status = order.Status, OrderId = order.OrderId });
     }
 }
