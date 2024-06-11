@@ -70,7 +70,7 @@
                     }
                     <br>
                     
-                    <button class="btn btn-primary" @onclick="() => { PayForSelectedItems(_selectedCheckoutItems); }">Checkout (€@(_selectedCheckoutItems.Sum(p => p.Price)))</button>
+                    <button class="btn btn-primary" @onclick="() => { PayForSelectedItems(SelectedCheckoutItems); }">Checkout (€@(SelectedCheckoutItems.Sum(p => p.Price)))</button>
                 }
             </div>
         </div>
@@ -83,7 +83,7 @@
         {
             // maak kolom voor elke categorie
 
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <h2>@category.Name</h2>
                 @foreach (var product in category.Products)
                 {
@@ -93,7 +93,7 @@
                 }
             </div>
         }
-        <div class="col-md-2">
+        <div class="col-md-1 text-start">
             <h2>Round</h2>
             @if (CurrentOrder != null)
             {
@@ -104,18 +104,25 @@
                     var round = CurrentOrder.Rounds[i];
 
                     <p>
-                        <b>Round @(i+1)</b>
+                        <b>Round @(i+1) (€@(round.Products.Sum(p => p.Price)))</b>
                     </p>
 
-                    foreach (var product in round.Products)
-                    {
-                        <p>@product.Name €@product.Price</p>
-
-                        foreach (var addon in product.Addons)
+                    <ul>
+                        @foreach (var product in round.Products)
                         {
-                            <p>| @addon</p>
+                            <li>
+                                <p>@product.Name €@product.Price</p>
+                                <ul>
+                                    @foreach (var addon in product.Addons)
+                                    {
+                                        <li>
+                                            <p>@addon</p>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
                         }
-                    }
+                    </ul>
                 }
             }
         </div>
@@ -135,7 +142,7 @@
     private readonly Dictionary<string, string> _selectedAddons = new();
     private readonly Dictionary<Product, bool> _selectedCheckoutItemsDictionary = new();
 
-    private List<Product> _selectedCheckoutItems
+    private List<Product> SelectedCheckoutItems
     {
         get
         {

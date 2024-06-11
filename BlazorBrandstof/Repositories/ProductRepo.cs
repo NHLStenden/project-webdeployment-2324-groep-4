@@ -38,8 +38,8 @@ public class ProductRepo
         using var connection = new MySqlConnection(ConnectionString);
         
         const string sql = "insert into products (Name, Price) values (@Name, @Price); SELECT LAST_INSERT_ID();";
-        
         var newId = connection.ExecuteScalar<int>(sql, product);
+        
         return GetById(newId)!;
     }
 
