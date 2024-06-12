@@ -20,7 +20,13 @@
         @foreach (var table in TableRepo.GetAll())
         {
             <div class="d-grid col-3 mx-auto">
-                <button type="button" class="btn btn-primary btn-lg" @onclick="() => SelectOrCreateOrder(table)">@table.Name</button>
+                <button type="button" class="btn btn-primary btn-lg position-relative" @onclick="() => SelectOrCreateOrder(table)">
+                    @table.Name
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    @(OrderRepo.GetByTableId(table.TableId)?.Rounds.Count ?? 0)
+                    <span class="visually-hidden">table amount</span>
+                  </span>
+                </button>
             </div>
         }
     </div>
