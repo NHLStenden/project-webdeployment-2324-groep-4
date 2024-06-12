@@ -46,13 +46,16 @@ public class OrderRepo
     {
         using var connection = new MySqlConnection(ConnectionString);
         
-        const string sql = "select * from orders where TableId = @Id";
+        const string sql = "select * from orders where TableId = @Id and Status != 'Paid'";
         var order = connection.QueryFirstOrDefault<Order>(sql, new { Id = id });
-        
-        const string sqlRounds = "select * from rounds where OrderId = @OrderId";
-        var rounds = connection.Query<Round>(sqlRounds, new { OrderId = order.OrderId });
+
+        if (order != null)
+        {
+            const string sqlRounds = "select * from rounds where OrderId = @OrderId";
+            var rounds = connection.Query<Round>(sqlRounds, new { OrderId = order.OrderId });
             
-        order?.Rounds.AddRange(rounds);
+            order?.Rounds.AddRange(rounds);
+        }
 
         return order;
     }
