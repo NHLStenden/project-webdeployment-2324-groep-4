@@ -11,11 +11,12 @@
 <p>Served by: @CurrentOrder.WaiterName | Table @CurrentOrder.TableId | Round @CurrentOrder.Rounds.Count | @CurrentOrder.Timestamp.ToShortTimeString()</p>
 }
 
-<button class="btn btn-primary" @onclick="() => TableDialog.Open()">Show Tables</button>
-<button class="btn btn-primary" disabled="@(CurrentOrder == null)" @onclick="() => CheckoutDialog.Open()">Checkout</button>
-<br>
+<div style="width: 100%; border-bottom: solid; border-width: 2px; border-color: #05472A; padding-bottom: 10px">
+    <button class="btn btn-primary" @onclick="() => TableDialog.Open()">Show Tables</button>
+    <button class="btn btn-primary" disabled="@(CurrentOrder == null)" @onclick="() => CheckoutDialog.Open()">Checkout</button>
+</div>
 
-<ModalDialog @ref="@TableDialog" Title="Tables" CanClose="false">
+<ModalDialog @ref="@TableDialog" Title="Tables" CanClose="@(CurrentOrder != null)">
     <div class="row gap-2">
         @foreach (var table in TableRepo.GetAll())
         {
@@ -89,8 +90,8 @@
         {
             // maak kolom voor elke categorie
 
-            <div class="col-md-1">
-                <h2>@category.Name</h2>
+            <div class="col-md">
+                <h2 style="height: 2em">@category.Name</h2>
                 @foreach (var product in category.Products)
                 {
                 <div class="row p-1">
@@ -99,7 +100,7 @@
                 }
             </div>
         }
-        <div class="col-md-1 text-start">
+        <div class="col-md text-start" style="border-left: solid; border-width: 2px; border-color: #05472A;">
             <h2>Round</h2>
             @if (CurrentOrder != null)
             {
