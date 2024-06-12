@@ -42,6 +42,21 @@ public class OrderRepo
         return order;
     }
 
+    public static Order? GetByTableId(int id)
+    {
+        using var connection = new MySqlConnection(ConnectionString);
+        
+        const string sql = "select * from orders where TableId = @Id";
+        var order = connection.QueryFirstOrDefault<Order>(sql, new { Id = id });
+        
+        const string sqlRounds = "select * from rounds where OrderId = @OrderId";
+        var rounds = connection.Query<Round>(sqlRounds, new { OrderId = order.OrderId });
+            
+        order?.Rounds.AddRange(rounds);
+
+        return order;
+    }
+    
     public static Order Add(Order order)
     {
         using var connection = new MySqlConnection(ConnectionString);
