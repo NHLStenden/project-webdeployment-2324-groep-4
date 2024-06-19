@@ -1,6 +1,6 @@
-﻿@page "/"
-@inject NavigationManager NavManager
-@using BlazorBrandstof.Repositories
+﻿@page "/" // Dit is het hoofdpagina, en V onder om navigatie functies te gebruiken.
+@inject NavigationManager NavManager 
+@using BlazorBrandstof.Repositories 
 
 <div class="container">
     <div class="form-container">
@@ -42,9 +42,9 @@
     }
 
     // Methode die wordt aangeroepen bij het indienen van het formulier.
-    private void Submit()
+    private void Submit() 
     {
-        // Controleert de inloggegevens vai de UserRepo.Verify methode
+        // Controleert de inloggegevens van de UserRepo.Verify methode
         if (UserRepo.Verify(Model.Username!, Model.Password!))
         {
             // Als de inloggegevens correct zijn, ga dan naar Home pagina.
