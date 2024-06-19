@@ -30,6 +30,16 @@ CREATE TABLE products
     FOREIGN KEY (CategoryId) REFERENCES categories(CategoryId)
 );
 
+/*
+     ProductId    int AUTO_INCREMENT NOT NULL, productId = getal, automatisch verhogen, mag niet leeg
+    Name  nvarchar(255)      NOT NULL, // naam = lettercombinatie, mag niet leeg
+    Price decimal(15,2)      NOT NULL, // prijs = een kommagetal van 15 cijfers met 2 achter de komma, mag niet leeg
+    CategoryId int,                     // categoryid = getal
+
+    PRIMARY KEY (ProductId),            //primaire sleutel is productID
+    FOREIGN KEY (CategoryId) REFERENCES categories(CategoryId) // Foreign key = categoryId en die refereerd naar categories = in andere tabel primaire key
+ */
+
 CREATE TABLE tables
 (
     TableId  int AUTO_INCREMENT          NOT NULL,
@@ -112,8 +122,13 @@ VALUES ('Personeel', 'e3657e9b618135800260e1358290407c8afcf52ce16f5a14ed0fd418bf
 INSERT INTO Users (Username, PassWord)
 VALUES ('Manager', '67e06322c104f451a8ce3d2e1a40db0c0b91ddb4cd8c5fdace6425ed6e624a97');
 
-INSERT INTO waiter (Name) 
+INSERT INTO waiter (Name)
 VALUES ('Waiter1');
+                    
+/*
+invoegen in table waiter kolom naam
+invoegen waiter1 in die kolom
+ */
 
 INSERT INTO waiter (Name)
 VALUES ('Waiter2');
